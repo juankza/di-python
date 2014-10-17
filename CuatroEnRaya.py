@@ -7,10 +7,8 @@ import random
 
 def drawBoard(board):
     # This function prints out the board that it was passed.
-
+    # "board" is a matrix with 6 rows and 7 columns of strings (6x7).
     os.system('clear')
-    # board[6x7]
-    # "board" is a matrix with 6 rows and 7 columns of strings
     print('| ' +board[5][0]+ ' | ' +board[5][1]+ ' | ' +board[5][2]+ ' | ' +board[5][3]+ ' | ' +board[5][4]+ ' | ' +board[5][5]+ ' | ' +board[5][6]+ ' |')
     print('-----------------------------')
     print('| ' +board[4][0]+ ' | ' +board[4][1]+ ' | ' +board[4][2]+ ' | ' +board[4][3]+ ' | ' +board[4][4]+ ' | ' +board[4][5]+ ' | ' +board[4][6]+ ' |')
@@ -31,8 +29,6 @@ def inputPlayerLetter():
     # computer's letter as the second.
     letter = ''
     while not (letter == 'X' or letter == 'x' or letter == 'O' or letter == 'o'):
-#        print('Do you want to be X or O?')
-#        letter = input().upper()
         letter = raw_input('Do you want to be X or O?\t')
 
     # the first element in the tuple is the player's letter, the second is
@@ -52,8 +48,6 @@ def whoGoesFirst():
 def playAgain():
     # This function returns True if the player wants to play again, otherwise
     # it returns False.
-#    print('Do you want to play again? (yes or no)')
-#    return input().lower().startswith('y')
     again = raw_input('Do you want to play again? (y or n)\t')
 
     if again == 'Y' or again == 'y' or again == 'Yes' or again == 'yes':
@@ -72,7 +66,7 @@ def makeMove(board, letter, move):
             break
         else:
             x = x +1
-######################### Arreglado isWinner(board, letter)        ####SEMI-Arreglado
+
 def isWinner(board, letter):
     # Given a board and a player's letter, this function returns True if that
     # player has won. We use bo instead of board and le instead of letter so
@@ -91,7 +85,7 @@ def isWinner(board, letter):
             else:
                 j = len(board[x])
         x = x +1
-    #FOR VerticalWin (COLUMN)                           ####REVISAR LINEA 87 (List index out of range)       ####SEMI-Arreglado
+    #FOR VerticalWin (COLUMN)
     y = 0
     for i in board[y]:
         x = 0
@@ -104,11 +98,11 @@ def isWinner(board, letter):
             else:
                 j = len(board)
         y = y +1
-    #TODO DiagonalWin
+########################################TODO DiagonalWin
     return win
 #    (board[7] == letter and board[5] == letter and board[3] == letter) or # diagonal
 #    (board[9] == letter and board[5] == letter and board[1] == letter) # diagonal
-######################### Arreglado getBoardCopy(board)
+
 def getBoardCopy(board):
     # Make a duplicate of the board list and return it the duplicate.
     copyBoard = []
@@ -117,16 +111,16 @@ def getBoardCopy(board):
     x = 0
     for i in board:
         y = 0
-        for j in board[x]:                              ####REVISAR LINEA 109 (List indices must be integers, not list)   ####SEMI-Arreglado
+        for j in board[x]:
             copyBoard[x][y] = board[x][y]
             y = y +1
         x = x +1
     return copyBoard
-######################### Arreglado isSpaceFree(board, move)
-def isSpaceFree(board, move):
+
+def isSpaceFree(board, moveList):
     # Return true if the passed move is free on the passed board.
-    return board[int(move[0])][int(move[1])] == ' '     ####REVISAR LINEA 119 ('int' object has no attribute '__getitem__')
-######################### Arreglado getPlayerMove(board)
+    return board[int(moveList[0])][int(moveList[1])] == ' '
+
 def getPlayerMove(board):
     # Let the player type in his move.
     x = 0
@@ -140,20 +134,27 @@ def getPlayerMove(board):
                 x = x +1
         else:
             move = raw_input('What is your next move? (1-7)\t')
-############################################################################################### Arreglado hasta aquí
-def chooseRandomMoveFromList(board, movesList):
-    # Returns a valid move from the passed list on the passed board.
-    # Returns None if there is no valid move.
-    possibleMoves = []
-    for i in movesList:
-        if isSpaceFree(board, i):
-            possibleMoves.append(i)
 
-    if len(possibleMoves) != 0:
-        return random.choice(possibleMoves)
+def getRandomMove(board):
+    # Returns a random valid move on the passed board.
+    # Returns None if there is no valid move. ####random.randint(0, 1)
+    canMove = []
+    x = 0
+    for i in range(len(board)):
+        y = 0
+        for j in range(len(board[x])):
+            moveList = [x, y]
+            if isSpaceFree(board, moveList) == True:
+                canMove.append(int(moveList[1]))
+            else:
+                y = y +1
+        x = x +1
+
+    if len(canMove) != 0:
+        return random.choice(canMove)
     else:
         return None
-#########################SEMI-Arreglado
+
 def getComputerMove(board, computerLetter):
     # Given a board and the computer's letter, determine where to move and
     # return that move.
@@ -161,18 +162,18 @@ def getComputerMove(board, computerLetter):
         playerLetter = 'O'
     else:
         playerLetter = 'X'
-    # Here is our algorithm for our Tic Tac Toe AI:
+    # Here is the algorithm for ComputerAI:
     # First, check if we can win in the next move
     x = 0
     for i in range(len(board)):
         y = 0
         for j in range(len(board[x])):
             copy = getBoardCopy(board)
-            move = [x, y]
-            if isSpaceFree(copy, move):
-                makeMove(copy, computerLetter, move)
+            moveList = [x, y]
+            if isSpaceFree(copy, moveList) == True:
+                makeMove(copy, computerLetter, y)
                 if isWinner(copy, playerLetter):
-                    return move
+                    return y
             y = y +1
         x = x +1
     # Check if the player could win on his next move, and block them.
@@ -181,25 +182,18 @@ def getComputerMove(board, computerLetter):
         y = 0
         for j in range(len(board[x])):
             copy = getBoardCopy(board)
-            move = [x, y]
-            if isSpaceFree(copy, move):
-                makeMove(copy, playerLetter, move)
+            moveList = [x, y]
+            if isSpaceFree(copy, moveList) == True:
+                makeMove(copy, playerLetter, y)
                 if isWinner(copy, playerLetter):
-                    return move
+                    return y
             y = y +1
         x = x +1
-    # Try to take one of the corners, if they are free.  ##########
-    move = chooseRandomMoveFromList(board, [1, 3, 7, 9])
+    # Try to take one of the corners, if they are free.
+    move = getRandomMove(board)
     if move != None:
         return move
 
-    # Try to take the center, if it is free.
-    if isSpaceFree(board, 5):
-        return 5
-
-    # Move on one of the sides.
-    return chooseRandomMoveFromList(board, [2, 4, 6, 8])
-######################## Arreglado isBoardFull(board)       ####SEMI-Arreglado
 def isBoardFull(board):
     # Return True if every space on the board has been taken. Otherwise
     # return False.
@@ -213,9 +207,8 @@ def isBoardFull(board):
             y = y +1
         x = x +1
     return True
-################################################################### MAIN ###################################################################
-os.system('clear')
-print('Welcome to Tic Tac Toe!')
+
+################################################### MAIN ###################################################
 
 while True:
     # Reset the board
@@ -223,10 +216,11 @@ while True:
     for i in range(6):
         theBoard.append([' '] * 7)
 
+    os.system('clear')
     playerLetter, computerLetter = inputPlayerLetter()
     turn = whoGoesFirst()
     print('The ' + turn + ' will go first.')
-    wait = raw_input('\nPress Enter to continue');
+    wait = raw_input('\nPress Enter to continue...');
     gameIsPlaying = True
 
     while gameIsPlaying:
@@ -235,7 +229,6 @@ while True:
             drawBoard(theBoard)
             move = getPlayerMove(theBoard)
             makeMove(theBoard, playerLetter, move)
-################################################### Aqui PETA
             if isWinner(theBoard, playerLetter):
                 drawBoard(theBoard)
                 print('Hooray! You have won the game!')
@@ -247,11 +240,10 @@ while True:
                     break
                 else:
                     turn = 'computer'
-
         else:
             # Computer's turn.
-#            move = getComputerMove(theBoard, computerLetter)
-#            makeMove(theBoard, computerLetter, move)
+            move = getComputerMove(theBoard, computerLetter)
+            makeMove(theBoard, computerLetter, move)
 
             if isWinner(theBoard, computerLetter):
                 drawBoard(theBoard)
@@ -264,8 +256,6 @@ while True:
                     break
                 else:
                     turn = 'player'
-
     if not playAgain():
         break
-
 os.system('clear')
