@@ -55,8 +55,8 @@ def playAgain():
 def makeMove(board, letter, move):
     x = 0
     for i in range(len(board)):
-        moveList = [x, move] 
-        if isSpaceFree(board, moveList):
+        moveList = [x, move]
+        if isSpaceFree(board, moveList): ########### ENVIA NoneType
             board[int(moveList[0])][int(moveList[1])] = letter
             break
         else:
@@ -105,8 +105,6 @@ def isWinner(board, letter):
     (board[1][3] == letter and board[2][4] == letter and board[3][5] == letter and board[4][6] == letter) or
     (board[0][3] == letter and board[1][4] == letter and board[2][5] == letter and board[3][6] == letter)):
         win = True
-    else:
-        win = False
     # IF DiagonalWin (RIGHT-TO-LEFT)
     if ((board[2][6] == letter and board[3][5] == letter and board[4][4] == letter and board[5][3] == letter) or
     (board[1][6] == letter and board[2][5] == letter and board[3][4] == letter and board[4][3] == letter) or
@@ -121,8 +119,6 @@ def isWinner(board, letter):
     (board[1][3] == letter and board[2][2] == letter and board[3][1] == letter and board[4][0] == letter) or
     (board[0][3] == letter and board[1][2] == letter and board[2][1] == letter and board[3][0] == letter)):
         win = True
-    else:
-        win = False
     return win
 
 def getBoardCopy(board):
@@ -140,37 +136,37 @@ def getBoardCopy(board):
     return copyBoard
 
 def isSpaceFree(board, moveList):
-    # Return true if the passed move is free on the passed board
+    # Return True if the passed move is free on the passed board
     return board[int(moveList[0])][int(moveList[1])] == ' '
 
 def getPlayerMove(board):
     # Let the player type in his move
     x = 0
     move = raw_input('What is your next move? (1-7)\t')
-    for i in range(len(board)):
-        moveList = [x, (int(move) -1)]
-        if move in '1 2 3 4 5 6 7'.split():
+    if move != None and move != '' and move in '1 2 3 4 5 6 7'.split():
+        for i in range(len(board)):
+            moveList = [x, (int(move) -1)]
             if isSpaceFree(board, moveList) == True:
                 return (int(move) -1)
             else:
                 x = x +1
-        else:
-            move = raw_input('What is your next move? (1-7)\t')
+    else:
+        return None
 
 def getRandomMove(board):
     # Returns a random valid move on the passed board
     # Returns None if there is no valid move
     canMove = []
-    x = 0
-    for i in range(len(board)):
-        y = 0
-        for j in range(len(board[x])):
+    y = 0
+    for i in range(len(board[y])):
+        x = 0
+        for j in range(len(board)):
             moveList = [x, y]
             if isSpaceFree(board, moveList) == True:
                 canMove.append(int(moveList[1]))
             else:
-                y = y +1
-        x = x +1
+                x = x +1
+        y = y +1
     if len(canMove) != 0:
         return random.choice(canMove)
     else:
@@ -245,18 +241,21 @@ while True:
             # Player's turn
             drawBoard(theBoard)
             move = getPlayerMove(theBoard)
-            makeMove(theBoard, playerLetter, move)
-            if isWinner(theBoard, playerLetter):
-                drawBoard(theBoard)
-                print('Hooray! You have won the game!')
-                gameIsPlaying = False
-            else:
-                if isBoardFull(theBoard):
+            if move != None:
+                makeMove(theBoard, playerLetter, move)
+                if isWinner(theBoard, playerLetter):
                     drawBoard(theBoard)
-                    print('The game is a tie!')
-                    break
+                    print('Hooray! You have won the game!')
+                    gameIsPlaying = False
                 else:
-                    turn = 'computer'
+                    if isBoardFull(theBoard):
+                        drawBoard(theBoard)
+                        print('The game is a tie!')
+                        break
+                    else:
+                        turn = 'computer'
+            else:
+                waitUser = raw_input('Invalid move!')
         else:
             # Computer's turn
             move = getComputerMove(theBoard, computerLetter)
