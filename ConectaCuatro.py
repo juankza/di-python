@@ -1,3 +1,4 @@
+#gitUser> @juankza
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -224,13 +225,14 @@ def isBoardFull(board):
     return True
 
 #################### MAIN FUNCTION ####################
+os.system('clear')
+print('Welcome to Connect-Four!\n')
 while True:
     # Reset the board
     theBoard = []
     for i in range(6):
         theBoard.append([' '] * 7)
 
-    os.system('clear')
     playerLetter, computerLetter = inputPlayerLetter()
     turn = whoGoesFirst()
     print('The ' + turn + ' will go first.')
