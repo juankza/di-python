@@ -57,7 +57,7 @@ def makeMove(board, letter, move):
     x = 0
     for i in range(len(board)):
         moveList = [x, move]
-        if isSpaceFree(board, moveList): ########### ENVIA NoneType
+        if isSpaceFree(board, moveList):
             board[int(moveList[0])][int(moveList[1])] = letter
             break
         else:
