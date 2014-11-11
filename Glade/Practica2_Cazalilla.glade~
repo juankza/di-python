@@ -151,6 +151,7 @@
                     <property name="can_focus">True</property>
                     <property name="hexpand">True</property>
                     <property name="max_length">20</property>
+                    <signal name="changed" handler="on_userEntry_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -163,6 +164,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_length">32</property>
+                    <signal name="changed" handler="on_pwdEntry_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -174,6 +176,7 @@
                   <object class="GtkEntry" id="emailEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="changed" handler="on_emailEntry_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -185,6 +188,7 @@
                   <object class="GtkEntry" id="nameEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="changed" handler="on_nameEntry_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -196,6 +200,7 @@
                   <object class="GtkEntry" id="surnameEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="changed" handler="on_surnameEntry_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -207,6 +212,7 @@
                   <object class="GtkEntry" id="dirEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="changed" handler="on_dirEntry_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
