@@ -25,16 +25,18 @@ class MainWindow(MainGlade):
     
     ### Widgets
     self.mainWindow = self._glade.get_object("mainWindow")
-    #self.entryPrecio = self._glade.get_object("entryPrecio")
-    #self.comboBoxDescuento = self._glade.get_object("comboBoxDescuento")
-    #self.labelRPrecio2 = self._glade.get_object("labelRPrecio2")
+    self.btnExit = self._glade.get_object("btnExit")
+    self.btnScore = self._glade.get_object("btnScore")
+    self.btnAbout = self._glade.get_object("btnAbout")
     #self.labelRDescuento2 = self._glade.get_object("labelRDescuento2")
 
     #self._fillComboBox()
     
     ### Signals
     self.mainWindow.connect("destroy", Gtk.main_quit)
-    #self.entryPrecio.connect("changed", self._entryPrecioChanged)
+    self.btnExit.connect("clicked", Gtk.main_quit)
+    #self.btnScore.connect("clicked", self._displayScoreboard)
+    #self.btnAbout.connect("clicked", self._dialogAbout)
     #self.comboBoxDescuento.connect("changed", self._displayDiscount)
 
     self.mainWindow.show_all()
