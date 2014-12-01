@@ -3,9 +3,13 @@ PYTHON PROJECT --- INTERFACE DEVELOPMENT
 POTENTIAL GAMES --- INTERFACE
 
 Classic Pong   -   PyGame
-Minesweeper    -   PyGame?
+BrickBreaker   -   PyGame
+Tetris         -   PyGame
+Minesweeper    -   PyGame? / Glade?
 Hangman        -   PyGame? / Glade?
-Connect Four   -   PyGame?
+Connect Four   -   PyGame? / Glade?
 Tic-Tac-Toe!   -   PyGame? / Glade?
 BomberMan      -   PyGame?
+Snake          -   PyGame?
+Pac-Man        -   PyGame?
 
