@@ -3,9 +3,13 @@
 
 import sys
 import os
-#import sqlite3 bd = "db/scoreboard.db"
+#import sqlite3
 from gi.repository import Gtk
 from gi.repository import Gdk
+
+######################### GLOBAL VARS #########################
+
+#bd = "db/scoreboard"
 
 
 ######################### GLADE #########################
